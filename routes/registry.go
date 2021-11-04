@@ -45,4 +45,6 @@ func Registry(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, msg.Error(), 400)
 		return
 	}
+
+	w.WriteHeader(http.StatusCreated)
 }
