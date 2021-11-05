@@ -13,7 +13,7 @@ import (
 
 // export variables
 var Email string
-var IdUser string
+var IDUser string
 
 var JwtKey = GetKey()
 
@@ -29,6 +29,7 @@ func CheckToken(token string) (*models.Claim, bool, string, error) {
 	token = strings.TrimSpace(splitToken[1])
 
 	// parse token
+	// claims: it is nil before the parsing
 	jwToken, err := jwt.ParseWithClaims(
 		token,
 		claims,
@@ -38,12 +39,12 @@ func CheckToken(token string) (*models.Claim, bool, string, error) {
 
 	// check relationship between email and token
 	if err == nil {
-		_, isExist, _ := db.CheckUserExist(claims.Email)
-		if isExist {
+		_, isChecked, _ := db.CheckUserExist(claims.Email)
+		if isChecked == true {
 			Email = claims.Email
-			IdUser = claims.Id
+			IDUser = claims.ID.Hex()
 		}
-		return claims, isExist, IdUser, nil
+		return claims, isChecked, IDUser, nil
 	}
 
 	// invalid token
