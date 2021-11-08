@@ -19,6 +19,8 @@ func Handler() {
 	router.HandleFunc("/login", middlew.Checkdb(routes.Login)).Methods("POST")
 	router.HandleFunc("/showprofile", middlew.Checkdb(middlew.ValidateJwt(routes.ShowProfile))).Methods("GET")
 	router.HandleFunc("/updateprofile", middlew.Checkdb(middlew.ValidateJwt(routes.ModifyProfile))).Methods("PUT")
+	router.HandleFunc("/tweet", middlew.Checkdb(middlew.ValidateJwt(routes.InsertTweet))).Methods("POST")
+	router.HandleFunc("/readtweets", middlew.Checkdb(middlew.ValidateJwt(routes.ReadTweets))).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
