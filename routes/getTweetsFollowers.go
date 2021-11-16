@@ -10,7 +10,7 @@ import (
 	"github.com/carrenolg/twitter/db"
 )
 
-func ReadTweets(w http.ResponseWriter, r *http.Request) {
+func GetTweetsFollowers(w http.ResponseWriter, r *http.Request) {
 	// 1. get params from URL
 	pageParameter := r.URL.Query().Get("page")
 	if len(pageParameter) < 1 {
@@ -25,17 +25,16 @@ func ReadTweets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 2. call to readTweets function
-	result, status := db.ReadTweets(IDUser, int64(page))
+	// 2. Call to ReadTweetsFollowers()
+	tweets, status := db.ReadTweetsFollowers(IDUser, page)
 	if status == false {
-		msg := errors.New("error during tweets reading")
+		msg := errors.New("error during of the tweets followers reading")
 		http.Error(w, msg.Error(), http.StatusBadRequest)
 		return
 	}
 
-	// 3. create response
+	// 3. Create response
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(result)
-
+	json.NewEncoder(w).Encode(tweets)
 }

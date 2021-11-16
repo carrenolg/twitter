@@ -31,6 +31,7 @@ func Handler() {
 	router.HandleFunc("/unsetrelation", middlew.Checkdb(middlew.ValidateJwt(routes.UnsetRelation))).Methods("DELETE")
 	router.HandleFunc("/checkrelation", middlew.Checkdb(middlew.ValidateJwt(routes.CheckRelation))).Methods("GET")
 	router.HandleFunc("/listusers", middlew.Checkdb(middlew.ValidateJwt(routes.ListUsers))).Methods("GET")
+	router.HandleFunc("/gettweetsfollowers", middlew.Checkdb(middlew.ValidateJwt(routes.GetTweetsFollowers))).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
